@@ -30,6 +30,12 @@ export default function Tile({ x, y } : { x: number, y: number }) {
     setTax(tax);
   }
 
+  const HandleLandPurchase = () => {
+    setConfirmIsOpen(false)
+    //Send data to the smart contract
+  }
+
+
   return ( <>
     <div className='h-28 w-28 flex justify-center items-center relative' onClick={() => { setIsOpen(true)}}>
       <img src={grass} alt="" className='h-28 w-28 absolute top-0 left-0'/>
@@ -50,7 +56,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
 
     {confirmIsOpen && (
       <ConfirmPage 
-      onClose={() => setConfirmIsOpen(false)}
+      onClose={HandleLandPurchase}
       sellPrice={sellPrice}
       tax={tax}
       buyPrice={buyPrice}
