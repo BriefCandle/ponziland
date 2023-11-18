@@ -19,6 +19,10 @@ export default function OwnerHouseData() {
     setIsOpen(false);
   };
 
+  const handleClaim = () => {
+    //run Clain function smart contract
+  };
+
   const handleHouseSelect = (index: number) => {
     setSelectedHouse(index);
     setIsOpen(true);
@@ -48,13 +52,17 @@ export default function OwnerHouseData() {
           <h3 className='text-white uppercase p-6'>Your current Houses</h3>
           <div className='flex flex-col items-start overflow-y-scroll max-h-[750px]'>
             {ownedHouses.map((house, index) => (
+              <div className='flex flex-row p-2 text-white'>
               <button 
                 key={index} 
-                className='pl-8 p-2 text-white'
+                className=''
                 onClick={() => handleHouseSelect(index)}
               >
                 {house}
               </button>
+              <button className='pl-4' onClick={handleClaim}>Claim taxes</button>
+              <div className='pl-4'>{houseData[index].remainingTaxCharge}</div>
+              </div>
             ))}
           </div>
         </div>
