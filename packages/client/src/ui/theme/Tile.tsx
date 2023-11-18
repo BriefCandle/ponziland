@@ -6,7 +6,7 @@ import { useMUD } from '../../store';
 
 export default function Tile({ x, y } : { x: number, y: number }) {
 
-  const { networkLayer : { network : { playerEntity }}} = useMUD();
+  // const { networkLayer : { network : { playerEntity }}} = useMUD();
   const [isOpen, setIsOpen] = React.useState(false);
 
   return ( <>
@@ -14,7 +14,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
       <img src={grass} alt="" className='h-28 w-28 absolute top-0 left-0'/>
       {x}, {y}
 
-      {x != 0 && (
+      {x != 0 && ( 
         <img src={house1} alt="" className='h-28 w-28 absolute top-0 left-0'/>
       )}
     </div>

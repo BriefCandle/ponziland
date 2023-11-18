@@ -1,5 +1,6 @@
 import React from 'react'
 import Tile from './Tile';
+import Hud from './Hud';
 
 const list : number[] = []
 
@@ -20,6 +21,7 @@ export default function Map() {
                 ))
             ))}
             </div>
+            <Hud />
       </div>
     );
   }
