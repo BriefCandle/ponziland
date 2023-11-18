@@ -18,7 +18,7 @@ contract TileSystem is System {
       if (nx == 0 || ny == 0) {
         continue;
       }
-      uint64 nearTileOwner = Tile.getOwner(nearTile);
+      bytes32 nearTileOwner = Tile.getOwner(nearTile);
       if (nearTileOwner == 0) {
         continue;
       }
@@ -26,6 +26,6 @@ contract TileSystem is System {
     }
 
     // TODO: give original owner some shit
-    Tile.set(uint64, Utils.toBytes32(_msgSender()), 1000);
+    Tile.set(xy, Utils.toBytes32(_msgSender()), 1000);
   }
 }
