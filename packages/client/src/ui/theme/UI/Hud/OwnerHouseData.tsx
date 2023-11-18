@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import OwnerPage from './OwnerPage';
 import AddTaxPage from './AddTaxPage';
+import SellLandPage from './SellLandPage';
 
 type HouseData = { id : number, remainingTaxCharge : number, sellPrice : number }
 
@@ -8,6 +9,7 @@ export default function OwnerHouseData() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isTaxOpen, setIsTaxOpen] = useState(false);
+  const [isSellOpen, setIsSellOpen] = useState(false);
   const ownedHouses : string[] = []
 
   for (let i = 0; i < 5; i++) {
@@ -45,9 +47,19 @@ export default function OwnerHouseData() {
     setIsTaxOpen(true);
   }
 
-  const handleSellPlotClose = () => {
+  const handleAddTaxClose = () => {
     setIsTaxOpen(false);
   }
+
+  const handleSellPlot = () => {
+    setIsOpen(false);
+    setIsSellOpen(true);
+  }
+
+  const handleSellPlotClose = () => {
+    setIsSellOpen(false);
+  }
+
   const handleClaim = () => {
     //run Clain function smart contract
   };
@@ -85,15 +97,25 @@ export default function OwnerHouseData() {
         <OwnerPage 
           onClose={handlePageClose}
           addTaxStorage={handleAddTax}
+          addSellPlot={handleSellPlot}
           houseData={houseData[selectedHouse]}
         />
       )}
       {isTaxOpen && (
         <AddTaxPage
-        onClose={handleSellPlotClose}
+        onClose={handleAddTaxClose}
         houseData={houseData[selectedHouse]}
         />
       )}
+
+      {isSellOpen && (
+        <SellLandPage
+        onClose={handleSellPlotClose}
+        houseData={houseData[selectedHouse]}
+        />
+      )
+
+      }
     </>
 
   );
