@@ -7,10 +7,21 @@ import {TileLogic} from "@/libraries/TileLogic.sol";
 import {Utils} from "@/libraries/Utils.sol";
 
 contract TileSystem is System {
-  function tokeover(uint64 xy) public { 
+  
+  function purchase(uint64 xy) public { 
     (uint32 x, uint32 y) = TileLogic.split(xy);
     if (x > 64 || y > 64) revert("Exceed Map");
-    
+
+    // TODO: give original owner some shit
+    Tile.set(xy, Utils.toBytes32(_msgSender()), 1000);
+  }
+
+  function claimTax(uint64 xy) public {
+    (uint32 x, uint32 y) = TileLogic.split(xy);
+    if (x > 64 || y > 64) revert("Exceed Map");
+
+    uint256 amount = 0;
+
     uint64[8] memory nearTiles = TileLogic.getNearTiles(xy);
     for (uint i = 0; i < 8; i++) {
       uint64 nearTile = nearTiles[i];
@@ -23,9 +34,9 @@ contract TileSystem is System {
         continue;
       }
       // TODO: give nearTileOwner some shit
+      amount = amount + Tile.getPrice(nearTile) ;
     }
-
-    // TODO: give original owner some shit
-    Tile.set(xy, Utils.toBytes32(_msgSender()), 1000);
   }
+
+  
 }
