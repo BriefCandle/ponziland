@@ -22,8 +22,6 @@ const Hud = () => {
           left: showSidebar ? '0px' : '-100%', 
           height: '600px',
           width: '300px',
-          opacity: '80%',
-          backgroundColor: '#052c76'
         }}>
         <OwnerHouseData />
       </div>
