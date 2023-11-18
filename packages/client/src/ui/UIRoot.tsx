@@ -1,16 +1,18 @@
+import { NetworkSummary } from "@latticexyz/dev-tools/src/summary/NetworkSummary";
 import { useStore } from "../store";
 import { LoadingScreen } from "./LoadingScreen";
 import { Wrapper } from "./Wrapper";
+import Map from "./theme/Map";
 
 export const UIRoot = () => {
   const layers = useStore((state) => {
     return {
       networkLayer: state.networkLayer,
-      phaserLayer: state.phaserLayer,
     };
   });
 
-  if (!layers.networkLayer || !layers.phaserLayer) return <></>;
+
+  return <Map></Map>;
 
   return (
     <Wrapper>

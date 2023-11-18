@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNetworkLayer } from "./hooks/useNetworkLayer";
 import { useStore } from "../store";
-import { PhaserLayer } from "./PhaserLayer";
 import { UIRoot } from "./UIRoot";
 import mudConfig from "contracts/mud.config";
 
@@ -33,7 +32,6 @@ export const App = () => {
 
   return (
     <div>
-      <PhaserLayer networkLayer={networkLayer} />
       <UIRoot />
     </div>
   );
