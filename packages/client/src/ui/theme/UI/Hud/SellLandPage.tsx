@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
-type HouseData = { id : number, remainingTaxCharge : number, sellPrice : number }
+type PlotData = { x: number, taxReserve: number, salePrice: number, owner: string }
 
-export default function SellLandPage({ onClose, houseData } : {onClose : () => void, houseData : HouseData }){
+export default function SellLandPage({ onClose, plotData } : {onClose : () => void, plotData : PlotData }){
 
     let runway : number;
     let runwayInDays : number;
     let blockTax : number;
     const taxPerBlock : number = 0.01 ; // In percent
   
-    blockTax = parseFloat((houseData.sellPrice * taxPerBlock).toFixed(2));
+    blockTax = parseFloat((plotData.salePrice * taxPerBlock).toFixed(2));
   
-    runway = parseFloat((houseData.remainingTaxCharge / taxPerBlock).toFixed(2));
+    runway = parseFloat((plotData.taxReserve / taxPerBlock).toFixed(2));
   
     runwayInDays = parseFloat((runway / 6400).toFixed(2));
 
@@ -25,12 +25,12 @@ export default function SellLandPage({ onClose, houseData } : {onClose : () => v
         <div className="mt-3">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Sell this Land</h3>
           <div className="mt-2 pb-4 flex flex-col">
-            <p>House Id: {houseData.id}</p>
-            <p className="text-lg text-gray-500 pt-8">Your current remaining taxe funds are: {houseData.remainingTaxCharge}</p>
+            <p>House Id: {plotData.x}</p>
+            <p className="text-lg text-gray-500 pt-8">Your current remaining taxe funds are: {plotData.taxReserve}</p>
           </div>
           <div >
             <div className='flex flex-col py-3'>
-              <div className='py-3 pr-3'>House sell price: {houseData.sellPrice}</div>
+              <div className='py-3 pr-3'>House sell price: {plotData.salePrice}</div>
             </div>
 
               <div className='py-3 pr-3'>Runway left in blocks: {runway}</div>

@@ -17,6 +17,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
     sellPrice: 0, 
     buyPrice: 0, 
     tax: 0,       
+    owner: null as string | null
   });
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
         sellPrice: plot.salePrice, // Assuming this is the correct mapping
         buyPrice: plot.salePrice, // Set buyPrice if it's the same as sellPrice
         tax: plot.taxReserve,
+        owner: plot.owner
       });
     }
   }, [x, y, plots]);

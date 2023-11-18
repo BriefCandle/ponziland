@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-type HouseData = { id : number, remainingTaxCharge : number, sellPrice : number }
+type PlotData = { x: number, taxReserve: number, salePrice: number, owner: string }
 
-export default function AddTaxPage({ onClose, houseData } : {onClose : () => void, houseData : HouseData }){
+export default function AddTaxPage({ onClose, plotData } : {onClose : () => void, plotData : PlotData }){
 
     const [taxAdd, setTaxAdd] = useState<number>(0);
 
@@ -20,7 +20,7 @@ export default function AddTaxPage({ onClose, houseData } : {onClose : () => voi
         <div className="mt-3">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Add taxe funds</h3>
           <div className="mt-2 pb-4 flex flex-col">
-            <p className="text-lg text-gray-500 pt-8">Your current taxe funds are: {houseData.remainingTaxCharge}</p>
+            <p className="text-lg text-gray-500 pt-8">Your current taxe funds are: {plotData.taxReserve}</p>
           </div>
           <div >
             <div className='flex flex-col py-3'>
