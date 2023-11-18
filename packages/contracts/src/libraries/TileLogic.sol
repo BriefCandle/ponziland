@@ -64,7 +64,7 @@ library TileLogic {
       if (nearTile == 0 || Tile.getOwner(nearTile) == 0) continue;
 
       uint256 amount = (block.timestamp - Tile.getLastUpdated(nearTile)) * 
-        TAX_RATE * tileData.price;
+        (TAX_RATE * tileData.price) / 100;
       total = total + amount;
     }
 
