@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-export default function Modal({ onNext, onClose, price } : { onNext : () => void, onClose : () => void , price : number }){
+export default function Modal({ onNext, onClose, price } : { onNext : ( sellPrice: number, tax: number) => void, onClose : () => void , price : number }){
+  const [sellPrice, setSellPrice] = useState<number>(price);
+  const [tax, setTax] = useState<number>(0);
+
+  const handleNext = () => {
+      onNext(sellPrice, tax);
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50" onClick={onClose}>
@@ -13,14 +19,24 @@ export default function Modal({ onNext, onClose, price } : { onNext : () => void
           <div >
             <div className='flex flex-col py-3'>
               <div className='py-3 pr-3'>At what price do you want to sell the land</div>
-              <input type="number" defaultValue={price} className='w-1/2 border border-gray-300'/>
+              <input 
+                  type="number" 
+                  value={sellPrice} 
+                  onChange={(e) => setSellPrice(Number(e.target.value))}
+                  className='w-1/2 border border-gray-300'
+              />
               <div className='py-3 pr-3'>Deposit tax money</div>
-              <input type="number" defaultValue={price} className='w-1/2 border border-gray-300'/>
+              <input 
+                  type="number" 
+                  value={tax} 
+                  onChange={(e) => setTax(Number(e.target.value))}
+                  className='w-1/2 border border-gray-300'
+              />
             </div>
           </div>
           <div className="items-center px-4 py-3">
             <button
-              onClick={onNext}
+              onClick={handleNext}
               className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-2/3 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
               Next
