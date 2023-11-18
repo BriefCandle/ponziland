@@ -2,7 +2,6 @@ import { NetworkSummary } from "@latticexyz/dev-tools/src/summary/NetworkSummary
 import { useStore } from "../store";
 import { LoadingScreen } from "./LoadingScreen";
 import { Wrapper } from "./Wrapper";
-import Map from "./theme/Map";
 import Main from "./theme/Main";
 
 export const UIRoot = () => {
