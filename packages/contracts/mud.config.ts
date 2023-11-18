@@ -12,8 +12,9 @@ export default mudConfig({
       },
       valueSchema: {
         owner: "bytes32",
+        price: "uint256",
         amount: "uint256",
-        lastUpdated: "uint40[]",
+        lastUpdated: "uint40",
       },
     },
   },

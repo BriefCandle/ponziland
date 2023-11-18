@@ -2,41 +2,26 @@
 pragma solidity >=0.8.21;
 
 import { System } from "@latticexyz/world/src/System.sol";
-import {Tile} from "@/codegen/tables/Tile.sol";
 import {TileLogic} from "@/libraries/TileLogic.sol";
 import {Utils} from "@/libraries/Utils.sol";
 
 contract TileSystem is System {
   
-  function purchase(uint64 xy) public { 
-    (uint32 x, uint32 y) = TileLogic.split(xy);
-    if (x > 64 || y > 64) revert("Exceed Map");
-
-    // TODO: give original owner some shit
-    Tile.set(xy, Utils.toBytes32(_msgSender()), 1000);
+  function purchase(uint64 xy, uint256 price, uint256 amount) public { 
+    TileLogic._purchase(xy, price, amount);
   }
 
-  function claimTax(uint64 xy) public {
-    (uint32 x, uint32 y) = TileLogic.split(xy);
-    if (x > 64 || y > 64) revert("Exceed Map");
-
-    uint256 amount = 0;
-
-    uint64[8] memory nearTiles = TileLogic.getNearTiles(xy);
-    for (uint i = 0; i < 8; i++) {
-      uint64 nearTile = nearTiles[i];
-      (uint32 nx, uint32 ny) = TileLogic.split(nearTile);
-      if (nx == 0 || ny == 0) {
-        continue;
-      }
-      bytes32 nearTileOwner = Tile.getOwner(nearTile);
-      if (nearTileOwner == 0) {
-        continue;
-      }
-      // TODO: give nearTileOwner some shit
-      amount = amount + Tile.getPrice(nearTile) ;
-    }
+  
+  function claimTax(uint64 xy) public returns (uint256 total) {
+    return TileLogic._claimTax(xy);
   }
 
+  function setPrice(uint64 xy, uint256 price) public {
+    TileLogic._setPrice(xy, price);
+  }
+
+  function stake(uint64 xy, uint256 amount) public {
+    TileLogic._stake(xy, amount);
+  }
   
 }
