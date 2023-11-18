@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import grass from '/assets/tiles/grass.jpg';
 import house1 from '/assets/tiles/house_1.png';
 import BuyPage from './UI/BuyPage';
 import ConfirmPage from './UI/ConfirmPage'
+import { plots } from './OnchainData';
 import { useMUD } from '../../store';
 
 export default function Tile({ x, y } : { x: number, y: number }) {
@@ -12,18 +13,22 @@ export default function Tile({ x, y } : { x: number, y: number }) {
   const [confirmIsOpen, setConfirmIsOpen] = React.useState(false);
 
 
-  //Buy data
-  const [sellPrice, setSellPrice] = React.useState<number>(0);
-  const [buyPrice, setBuyPrice] = React.useState<number>(0);
-  const [tax, setTax] = React.useState<number>(0);
-
-
-  
   const [buyData, setBuyData] = useState({
-    sellPrice: null,
-    buyPrice: null,
-    tax: null,
+    sellPrice: 0, 
+    buyPrice: 0, 
+    tax: 0,       
   });
+
+  useEffect(() => {
+    const plot = plots.find(plot => plot.x === x && plot.y === y);
+    if (plot) {
+      setBuyData({
+        sellPrice: plot.salePrice, // Assuming this is the correct mapping
+        buyPrice: plot.salePrice, // Set buyPrice if it's the same as sellPrice
+        tax: plot.taxReserve,
+      });
+    }
+  }, [x, y, plots]);
 
 
   const handleBuyPageClose = () => {
