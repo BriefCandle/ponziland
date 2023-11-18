@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-type PlotData = { x: number, taxReserve: number, salePrice: number, owner: string }
+type PlotData = { id: string, taxReserve: number, salePrice: number, owner: string }
 
 export default function AddTaxPage({ onClose, plotData } : {onClose : () => void, plotData : PlotData }){
 
@@ -18,7 +18,7 @@ export default function AddTaxPage({ onClose, plotData } : {onClose : () => void
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50" onClick={onClose}>
       <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"  onClick={(e) => e.stopPropagation() }>
         <div className="mt-3">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Add taxe funds</h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Add taxe funds for this land id: ({plotData.id})</h3>
           <div className="mt-2 pb-4 flex flex-col">
             <p className="text-lg text-gray-500 pt-8">Your current taxe funds are: {plotData.taxReserve}</p>
           </div>

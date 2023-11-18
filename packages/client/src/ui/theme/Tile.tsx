@@ -14,6 +14,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
 
 
   const [buyData, setBuyData] = useState({
+    id : null as string | null,
     sellPrice: 0, 
     buyPrice: 0, 
     tax: 0,       
@@ -24,8 +25,9 @@ export default function Tile({ x, y } : { x: number, y: number }) {
     const plot = plots.find(plot => plot.x === x && plot.y === y);
     if (plot) {
       setBuyData({
-        sellPrice: plot.salePrice, // Assuming this is the correct mapping
-        buyPrice: plot.salePrice, // Set buyPrice if it's the same as sellPrice
+        id: plot.id, 
+        sellPrice: plot.salePrice, 
+        buyPrice: plot.salePrice,
         tax: plot.taxReserve,
         owner: plot.owner
       });

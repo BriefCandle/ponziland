@@ -18,6 +18,7 @@ export default function Map() {
       plots.push({
         x: i, 
         y: j,
+        id: `${i}, ${j}`, 
         owner: `Owner ${i}-${j}`,
         taxToClaim: Math.random() * 1000,
         taxReserve: Math.random() * 1000,

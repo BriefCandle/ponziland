@@ -4,7 +4,7 @@ import AddTaxPage from './AddTaxPage';
 import SellLandPage from './SellLandPage';
 import { plots } from '../../OnchainData';
 
-type PlotData = { x: number, taxReserve: number, salePrice: number, owner: string }
+type PlotData = { id: string, taxReserve: number, salePrice: number, owner: string }
 
 
 export default function OwnerHouseData() {
@@ -12,7 +12,6 @@ export default function OwnerHouseData() {
   const [isOpen, setIsOpen] = useState(false);
   const [isTaxOpen, setIsTaxOpen] = useState(false);
   const [isSellOpen, setIsSellOpen] = useState(false);
-  const ownedHouses : string[] = []
 
   const [selectedPlot, setSelectedPlot] = useState<number>(0);
   const [plotData, setPlotData] = useState<PlotData[]>([]);
@@ -67,7 +66,7 @@ export default function OwnerHouseData() {
         <div className='flex flex-col'>
           <h3 className='text-white uppercase p-6'>Your current Houses</h3>
           <div className='flex flex-col items-start overflow-y-scroll max-h-[750px]'>
-            {plotData.map((house, index) => (
+            {plotData.map((plot, index) => (
               <div className='flex flex-row p-2 text-white'>
               <button 
                 key={index} 

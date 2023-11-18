@@ -13,7 +13,7 @@ export default function Modal({ onNext, onClose, buyData, setBuyData } : { onNex
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50" onClick={onClose}>
       <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"  onClick={(e) => e.stopPropagation() }>
         <div className="mt-3">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Purchase Land</h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Purchase Land id: ({buyData.id})</h3>
           <div className="mt-2 pb-4 flex flex-col">
             <p className="text-lg text-gray-500 pt-8">Your buy price is ${buyData.price}</p>
           </div>

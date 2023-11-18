@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-type PlotData = { x: number, taxReserve: number, salePrice: number, owner: string }
+type PlotData = { id: string, taxReserve: number, salePrice: number, owner: string }
 
 export default function OwnerPage({ onClose, addTaxStorage, addSellPlot, plotData } : {onClose : () => void, addTaxStorage : () => void, addSellPlot : () => void, plotData : PlotData }){
 
@@ -23,7 +23,7 @@ export default function OwnerPage({ onClose, addTaxStorage, addSellPlot, plotDat
         <div className="mt-3">
           <h3 className="text-lg leading-6 font-medium text-gray-900">House Information</h3>
           <div className="mt-2 pb-4 flex flex-col">
-            <p className="text-lg text-gray-500 pt-8">House Id: {plotData.x}</p>
+            <p className="text-lg text-gray-500 pt-8">House Id: {plotData.id}</p>
           </div>
           <div >
             <div className='flex flex-col py-3'>
