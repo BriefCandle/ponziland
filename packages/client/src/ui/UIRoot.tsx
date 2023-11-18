@@ -3,6 +3,7 @@ import { useStore } from "../store";
 import { LoadingScreen } from "./LoadingScreen";
 import { Wrapper } from "./Wrapper";
 import Map from "./theme/Map";
+import Main from "./theme/Main";
 
 export const UIRoot = () => {
   const layers = useStore((state) => {
@@ -12,7 +13,7 @@ export const UIRoot = () => {
   });
 
 
-  return <Map></Map>;
+  return <Main></Main>;
 
   return (
     <Wrapper>

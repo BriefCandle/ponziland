@@ -14,14 +14,14 @@ export default function Map() {
 
     return (
       <div className='overflow-x-auto bg-[#466567]'>
-      <div className="grid grid-cols-64 gap-4 p-10" style={{ minWidth: `${totalWidth}rem` }}>
+        <div className="grid grid-cols-64 gap-4 p-10 select-none" style={{ minWidth: `${totalWidth}rem` }}>
             {list.map((x, xi) => (
                 list.map((y, yi) => (
                     <Tile x={xi} y={yi} key={`${xi}-${yi}`} />
                 ))
             ))}
-            </div>
-            <Hud />
+        </div>
+        <Hud />
       </div>
     );
   }
