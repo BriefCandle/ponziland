@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Modal({ onClose, price } : {onClose : () => void , price : number }){
+export default function Modal({ onNext, onClose, price } : { onNext : () => void, onClose : () => void , price : number }){
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50" onClick={onClose}>
@@ -20,7 +20,7 @@ export default function Modal({ onClose, price } : {onClose : () => void , price
           </div>
           <div className="items-center px-4 py-3">
             <button
-              onClick={onClose}
+              onClick={onNext}
               className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-2/3 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
               Next

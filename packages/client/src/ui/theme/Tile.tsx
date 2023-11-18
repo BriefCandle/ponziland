@@ -11,6 +11,21 @@ export default function Tile({ x, y } : { x: number, y: number }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [confirmIsOpen, setConfirmIsOpen] = React.useState(false);
 
+
+  //Buy data
+  const [sellPrice, setSellPrice] = React.useState<number>(0);
+  const [tax, setTax] = React.useState<number>(0);
+
+
+  const handleBuyPageClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleBuyPageNext = () => {
+    setIsOpen(false);
+    setConfirmIsOpen(true);
+  }
+
   return ( <>
     <div className='h-28 w-28 flex justify-center items-center relative' onClick={() => { setIsOpen(true)}}>
       <img src={grass} alt="" className='h-28 w-28 absolute top-0 left-0'/>
@@ -23,9 +38,11 @@ export default function Tile({ x, y } : { x: number, y: number }) {
 
     {isOpen && (
       <BuyPage 
+        onNext={() => {
+          handleBuyPageNext();
+        }}
         onClose={() => {
-          setIsOpen(false);
-          setConfirmIsOpen(true);
+          handleBuyPageClose();
         }} 
         price={1000}
       />
