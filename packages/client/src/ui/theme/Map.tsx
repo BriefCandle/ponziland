@@ -8,9 +8,20 @@ for (let i = 0; i < 64; i++) {
 
 export default function Map() {
 
-  return (
-    <div className='h-full w-full bg-amber-400'>
-        {list.map((x) => list.map((y) => <div className='bg-red p-5'>{x}, {y}</div>))}
-    </div>
-  )
-}
+    return (
+      <div className='bg-amber-400'>
+        <div className="overflow-x-auto">
+            <div className="grid grid-cols-64 gap-1 ">
+            {list.map((x, xi) => (
+                list.map((y, yi) => (
+                <div key={`${xi}-${yi}`} className='bg-red-500 h-30 w-30 flex justify-center items-center'>
+                    {x}, {y}
+                </div>
+                ))
+            ))}
+            </div>
+        </div>
+      </div>
+    );
+  }
+  
