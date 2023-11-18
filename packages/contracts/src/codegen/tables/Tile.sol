@@ -24,12 +24,13 @@ ResourceId constant _tableId = ResourceId.wrap(bytes32(abi.encodePacked(RESOURCE
 ResourceId constant TileTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0040020020200000000000000000000000000000000000000000000000000000
+  0x0040020120200000000000000000000000000000000000000000000000000000
 );
 
 struct TileData {
   bytes32 owner;
-  uint256 price;
+  uint256 amount;
+  uint40[] lastUpdated;
 }
 
 library Tile {
@@ -57,9 +58,10 @@ library Tile {
    * @return _valueSchema The value schema for the table.
    */
   function getValueSchema() internal pure returns (Schema) {
-    SchemaType[] memory _valueSchema = new SchemaType[](2);
+    SchemaType[] memory _valueSchema = new SchemaType[](3);
     _valueSchema[0] = SchemaType.BYTES32;
     _valueSchema[1] = SchemaType.UINT256;
+    _valueSchema[2] = SchemaType.UINT40_ARRAY;
 
     return SchemaLib.encode(_valueSchema);
   }
@@ -78,9 +80,10 @@ library Tile {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](2);
+    fieldNames = new string[](3);
     fieldNames[0] = "owner";
-    fieldNames[1] = "price";
+    fieldNames[1] = "amount";
+    fieldNames[2] = "lastUpdated";
   }
 
   /**
@@ -140,9 +143,9 @@ library Tile {
   }
 
   /**
-   * @notice Get price.
+   * @notice Get amount.
    */
-  function getPrice(uint64 xy) internal view returns (uint256 price) {
+  function getAmount(uint64 xy) internal view returns (uint256 amount) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
 
@@ -151,9 +154,9 @@ library Tile {
   }
 
   /**
-   * @notice Get price.
+   * @notice Get amount.
    */
-  function _getPrice(uint64 xy) internal view returns (uint256 price) {
+  function _getAmount(uint64 xy) internal view returns (uint256 amount) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
 
@@ -162,23 +165,185 @@ library Tile {
   }
 
   /**
-   * @notice Set price.
+   * @notice Set amount.
    */
-  function setPrice(uint64 xy, uint256 price) internal {
+  function setAmount(uint64 xy, uint256 amount) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((price)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((amount)), _fieldLayout);
   }
 
   /**
-   * @notice Set price.
+   * @notice Set amount.
    */
-  function _setPrice(uint64 xy, uint256 price) internal {
+  function _setAmount(uint64 xy, uint256 amount) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((price)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((amount)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get lastUpdated.
+   */
+  function getLastUpdated(uint64 xy) internal view returns (uint40[] memory lastUpdated) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
+    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_uint40());
+  }
+
+  /**
+   * @notice Get lastUpdated.
+   */
+  function _getLastUpdated(uint64 xy) internal view returns (uint40[] memory lastUpdated) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
+    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_uint40());
+  }
+
+  /**
+   * @notice Set lastUpdated.
+   */
+  function setLastUpdated(uint64 xy, uint40[] memory lastUpdated) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((lastUpdated)));
+  }
+
+  /**
+   * @notice Set lastUpdated.
+   */
+  function _setLastUpdated(uint64 xy, uint40[] memory lastUpdated) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((lastUpdated)));
+  }
+
+  /**
+   * @notice Get the length of lastUpdated.
+   */
+  function lengthLastUpdated(uint64 xy) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    unchecked {
+      return _byteLength / 5;
+    }
+  }
+
+  /**
+   * @notice Get the length of lastUpdated.
+   */
+  function _lengthLastUpdated(uint64 xy) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    unchecked {
+      return _byteLength / 5;
+    }
+  }
+
+  /**
+   * @notice Get an item of lastUpdated.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
+   */
+  function getItemLastUpdated(uint64 xy, uint256 _index) internal view returns (uint40) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    unchecked {
+      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 5, (_index + 1) * 5);
+      return (uint40(bytes5(_blob)));
+    }
+  }
+
+  /**
+   * @notice Get an item of lastUpdated.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
+   */
+  function _getItemLastUpdated(uint64 xy, uint256 _index) internal view returns (uint40) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    unchecked {
+      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 5, (_index + 1) * 5);
+      return (uint40(bytes5(_blob)));
+    }
+  }
+
+  /**
+   * @notice Push an element to lastUpdated.
+   */
+  function pushLastUpdated(uint64 xy, uint40 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+  }
+
+  /**
+   * @notice Push an element to lastUpdated.
+   */
+  function _pushLastUpdated(uint64 xy, uint40 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+  }
+
+  /**
+   * @notice Pop an element from lastUpdated.
+   */
+  function popLastUpdated(uint64 xy) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 5);
+  }
+
+  /**
+   * @notice Pop an element from lastUpdated.
+   */
+  function _popLastUpdated(uint64 xy) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 5);
+  }
+
+  /**
+   * @notice Update an element of lastUpdated at `_index`.
+   */
+  function updateLastUpdated(uint64 xy, uint256 _index, uint40 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    unchecked {
+      bytes memory _encoded = abi.encodePacked((_element));
+      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 5), uint40(_encoded.length), _encoded);
+    }
+  }
+
+  /**
+   * @notice Update an element of lastUpdated at `_index`.
+   */
+  function _updateLastUpdated(uint64 xy, uint256 _index, uint40 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = bytes32(uint256(xy));
+
+    unchecked {
+      bytes memory _encoded = abi.encodePacked((_element));
+      StoreCore.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 5), uint40(_encoded.length), _encoded);
+    }
   }
 
   /**
@@ -214,11 +379,11 @@ library Tile {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(uint64 xy, bytes32 owner, uint256 price) internal {
-    bytes memory _staticData = encodeStatic(owner, price);
+  function set(uint64 xy, bytes32 owner, uint256 amount, uint40[] memory lastUpdated) internal {
+    bytes memory _staticData = encodeStatic(owner, amount);
 
-    PackedCounter _encodedLengths;
-    bytes memory _dynamicData;
+    PackedCounter _encodedLengths = encodeLengths(lastUpdated);
+    bytes memory _dynamicData = encodeDynamic(lastUpdated);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
@@ -229,11 +394,11 @@ library Tile {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(uint64 xy, bytes32 owner, uint256 price) internal {
-    bytes memory _staticData = encodeStatic(owner, price);
+  function _set(uint64 xy, bytes32 owner, uint256 amount, uint40[] memory lastUpdated) internal {
+    bytes memory _staticData = encodeStatic(owner, amount);
 
-    PackedCounter _encodedLengths;
-    bytes memory _dynamicData;
+    PackedCounter _encodedLengths = encodeLengths(lastUpdated);
+    bytes memory _dynamicData = encodeDynamic(lastUpdated);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
@@ -245,10 +410,10 @@ library Tile {
    * @notice Set the full data using the data struct.
    */
   function set(uint64 xy, TileData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.owner, _table.price);
+    bytes memory _staticData = encodeStatic(_table.owner, _table.amount);
 
-    PackedCounter _encodedLengths;
-    bytes memory _dynamicData;
+    PackedCounter _encodedLengths = encodeLengths(_table.lastUpdated);
+    bytes memory _dynamicData = encodeDynamic(_table.lastUpdated);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
@@ -260,10 +425,10 @@ library Tile {
    * @notice Set the full data using the data struct.
    */
   function _set(uint64 xy, TileData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.owner, _table.price);
+    bytes memory _staticData = encodeStatic(_table.owner, _table.amount);
 
-    PackedCounter _encodedLengths;
-    bytes memory _dynamicData;
+    PackedCounter _encodedLengths = encodeLengths(_table.lastUpdated);
+    bytes memory _dynamicData = encodeDynamic(_table.lastUpdated);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32(uint256(xy));
@@ -274,24 +439,41 @@ library Tile {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(bytes memory _blob) internal pure returns (bytes32 owner, uint256 price) {
+  function decodeStatic(bytes memory _blob) internal pure returns (bytes32 owner, uint256 amount) {
     owner = (Bytes.slice32(_blob, 0));
 
-    price = (uint256(Bytes.slice32(_blob, 32)));
+    amount = (uint256(Bytes.slice32(_blob, 32)));
+  }
+
+  /**
+   * @notice Decode the tightly packed blob of dynamic data using the encoded lengths.
+   */
+  function decodeDynamic(
+    PackedCounter _encodedLengths,
+    bytes memory _blob
+  ) internal pure returns (uint40[] memory lastUpdated) {
+    uint256 _start;
+    uint256 _end;
+    unchecked {
+      _end = _encodedLengths.atIndex(0);
+    }
+    lastUpdated = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_uint40());
   }
 
   /**
    * @notice Decode the tightly packed blobs using this table's field layout.
    * @param _staticData Tightly packed static fields.
-   *
-   *
+   * @param _encodedLengths Encoded lengths of dynamic fields.
+   * @param _dynamicData Tightly packed dynamic fields.
    */
   function decode(
     bytes memory _staticData,
-    PackedCounter,
-    bytes memory
+    PackedCounter _encodedLengths,
+    bytes memory _dynamicData
   ) internal pure returns (TileData memory _table) {
-    (_table.owner, _table.price) = decodeStatic(_staticData);
+    (_table.owner, _table.amount) = decodeStatic(_staticData);
+
+    (_table.lastUpdated) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -318,8 +500,27 @@ library Tile {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(bytes32 owner, uint256 price) internal pure returns (bytes memory) {
-    return abi.encodePacked(owner, price);
+  function encodeStatic(bytes32 owner, uint256 amount) internal pure returns (bytes memory) {
+    return abi.encodePacked(owner, amount);
+  }
+
+  /**
+   * @notice Tightly pack dynamic data lengths using this table's schema.
+   * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
+   */
+  function encodeLengths(uint40[] memory lastUpdated) internal pure returns (PackedCounter _encodedLengths) {
+    // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
+    unchecked {
+      _encodedLengths = PackedCounterLib.pack(lastUpdated.length * 5);
+    }
+  }
+
+  /**
+   * @notice Tightly pack dynamic (variable length) data using this table's schema.
+   * @return The dynamic data, encoded into a sequence of bytes.
+   */
+  function encodeDynamic(uint40[] memory lastUpdated) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode((lastUpdated)));
   }
 
   /**
@@ -328,11 +529,15 @@ library Tile {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dyanmic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bytes32 owner, uint256 price) internal pure returns (bytes memory, PackedCounter, bytes memory) {
-    bytes memory _staticData = encodeStatic(owner, price);
+  function encode(
+    bytes32 owner,
+    uint256 amount,
+    uint40[] memory lastUpdated
+  ) internal pure returns (bytes memory, PackedCounter, bytes memory) {
+    bytes memory _staticData = encodeStatic(owner, amount);
 
-    PackedCounter _encodedLengths;
-    bytes memory _dynamicData;
+    PackedCounter _encodedLengths = encodeLengths(lastUpdated);
+    bytes memory _dynamicData = encodeDynamic(lastUpdated);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }
