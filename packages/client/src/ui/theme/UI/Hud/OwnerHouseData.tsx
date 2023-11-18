@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import OwnerPage from './OwnerPage';
+import AddTaxPage from './AddTaxPage';
 
 type HouseData = { id : number, remainingTaxCharge : number, sellPrice : number }
 
 export default function OwnerHouseData() {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isTaxOpen, setIsTaxOpen] = useState(false);
   const ownedHouses : string[] = []
 
   for (let i = 0; i < 5; i++) {
@@ -14,19 +16,6 @@ export default function OwnerHouseData() {
 
   const [selectedHouse, setSelectedHouse] = useState<number>(0);
   const [houseData, setHouseData] = useState<HouseData[]>([]);
-
-  const handlePageClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleClaim = () => {
-    //run Clain function smart contract
-  };
-
-  const handleHouseSelect = (index: number) => {
-    setSelectedHouse(index);
-    setIsOpen(true);
-  }
 
   // Function to generate random house data
   const generateRandomHouseData = () => {
@@ -43,6 +32,31 @@ export default function OwnerHouseData() {
     const data = Array(5).fill(null).map(() => generateRandomHouseData());
     setHouseData(data);
   }, []);
+
+  const remainingTaxCharge = houseData[selectedHouse]?.remainingTaxCharge ?? 'Loading...';
+    
+
+  const handlePageClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleAddTax = () => {
+    setIsOpen(false);
+    setIsTaxOpen(true);
+  }
+
+  const handleSellPlotClose = () => {
+    setIsTaxOpen(false);
+  }
+  const handleClaim = () => {
+    //run Clain function smart contract
+  };
+
+  const handleHouseSelect = (index: number) => {
+    setSelectedHouse(index);
+    setIsOpen(true);
+  }
+
 
   
   return (
@@ -61,7 +75,7 @@ export default function OwnerHouseData() {
                 {house}
               </button>
               <button className='pl-4' onClick={handleClaim}>Claim taxes</button>
-              <div className='pl-4'>{houseData[index].remainingTaxCharge}</div>
+              <div className='pl-4'>{remainingTaxCharge}</div>
               </div>
             ))}
           </div>
@@ -70,7 +84,14 @@ export default function OwnerHouseData() {
       {isOpen && (
         <OwnerPage 
           onClose={handlePageClose}
+          addTaxStorage={handleAddTax}
           houseData={houseData[selectedHouse]}
+        />
+      )}
+      {isTaxOpen && (
+        <AddTaxPage
+        onClose={handleSellPlotClose}
+        houseData={houseData[selectedHouse]}
         />
       )}
     </>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 type HouseData = { id : number, remainingTaxCharge : number, sellPrice : number }
 
-export default function OwnerPage({ onClose, houseData } : {onClose : () => void, houseData : HouseData }){
+export default function OwnerPage({ onClose, addTaxStorage, houseData } : {onClose : () => void, addTaxStorage : () => void, houseData : HouseData }){
 
 
     let runway : number;
@@ -48,6 +48,7 @@ export default function OwnerPage({ onClose, houseData } : {onClose : () => void
             </button>
             <button 
                 className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300"
+                onClick={addTaxStorage}
             >
                 Add tax storage
             </button>
