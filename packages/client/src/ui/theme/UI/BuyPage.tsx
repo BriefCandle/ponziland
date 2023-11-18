@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 export default function Modal({ onNext, onClose, price } : { onNext : ( sellPrice: number, tax: number) => void, onClose : () => void , price : number }){
   const [sellPrice, setSellPrice] = useState<number>(price);
-  const [tax, setTax] = useState<number>(0);
+  const [tax, setTax] = useState<number>(price);
 
   const handleNext = () => {
       onNext(sellPrice, tax);

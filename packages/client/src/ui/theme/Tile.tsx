@@ -14,6 +14,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
 
   //Buy data
   const [sellPrice, setSellPrice] = React.useState<number>(0);
+  const [buyPrice, setBuyPrice] = React.useState<number>(0);
   const [tax, setTax] = React.useState<number>(0);
 
 
@@ -25,6 +26,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
     setIsOpen(false);
     setConfirmIsOpen(true);
     setSellPrice(sellPrice);
+    setBuyPrice(100);
     setTax(tax);
   }
 
@@ -51,6 +53,7 @@ export default function Tile({ x, y } : { x: number, y: number }) {
       onClose={() => setConfirmIsOpen(false)}
       sellPrice={sellPrice}
       tax={tax}
+      buyPrice={buyPrice}
        />
     )}
     </>
