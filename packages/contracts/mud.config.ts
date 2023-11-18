@@ -6,5 +6,16 @@ export default mudConfig({
       keySchema: {},
       valueSchema: "uint32",
     },
+    Tile: {
+      keySchema: {
+        xy: "uint64",
+      },
+      valueSchema: {
+        owner: "bytes32",
+        price: "uint256",
+        amount: "uint256",
+        lastUpdated: "uint40",
+      },
+    },
   },
 });
