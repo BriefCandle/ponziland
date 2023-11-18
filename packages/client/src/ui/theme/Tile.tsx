@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import grass from '/assets/tiles/grass.jpg';
 import house1 from '/assets/tiles/house_1.png';
 import BuyPage from './UI/BuyPage';
@@ -18,16 +18,21 @@ export default function Tile({ x, y } : { x: number, y: number }) {
   const [tax, setTax] = React.useState<number>(0);
 
 
+  
+  const [buyData, setBuyData] = useState({
+    sellPrice: null,
+    buyPrice: null,
+    tax: null,
+  });
+
+
   const handleBuyPageClose = () => {
     setIsOpen(false);
   };
 
-  const handleNext = (sellPrice: number, tax: number) => {
+  const handleNext = () => {
     setIsOpen(false);
     setConfirmIsOpen(true);
-    setSellPrice(sellPrice);
-    setBuyPrice(100);
-    setTax(tax);
   }
 
   const HandleLandPurchase = () => {
@@ -50,16 +55,15 @@ export default function Tile({ x, y } : { x: number, y: number }) {
       <BuyPage 
         onNext={handleNext}
         onClose={handleBuyPageClose} 
-        price={1000}
+        buyData={buyData}
+        setBuyData={setBuyData}
       />
     )}
 
     {confirmIsOpen && (
       <ConfirmPage 
       onClose={HandleLandPurchase}
-      sellPrice={sellPrice}
-      tax={tax}
-      buyPrice={buyPrice}
+      buyData={buyData}
        />
     )}
     </>

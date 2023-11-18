@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-export default function Modal({ onNext, onClose, price } : { onNext : ( sellPrice: number, tax: number) => void, onClose : () => void , price : number }){
-  const [sellPrice, setSellPrice] = useState<number>(price);
-  const [tax, setTax] = useState<number>(price);
+
+export default function Modal({ onNext, onClose, buyData, setBuyData } : { onNext : () => void, onClose : () => void, buyData : any, setBuyData : any }){
 
   const handleNext = () => {
-      onNext(sellPrice, tax);
+      onNext();
   };
+
+
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50" onClick={onClose}>
@@ -14,22 +15,26 @@ export default function Modal({ onNext, onClose, price } : { onNext : ( sellPric
         <div className="mt-3">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Purchase Land</h3>
           <div className="mt-2 pb-4 flex flex-col">
-            <p className="text-lg text-gray-500 pt-8">Your buy price is ${price}</p>
+            <p className="text-lg text-gray-500 pt-8">Your buy price is ${buyData.price}</p>
           </div>
           <div >
             <div className='flex flex-col py-3'>
               <div className='py-3 pr-3'>At what price do you want to sell the land</div>
               <input 
                   type="number" 
-                  value={sellPrice} 
-                  onChange={(e) => setSellPrice(Number(e.target.value))}
+                  value={buyData.sellPrice} 
+                  onChange={(e) => {
+                    setBuyData({...buyData, sellPrice : e.target.value})
+                  }}
                   className='w-1/2 border border-gray-300'
               />
               <div className='py-3 pr-3'>Deposit tax money</div>
               <input 
                   type="number" 
-                  value={tax} 
-                  onChange={(e) => setTax(Number(e.target.value))}
+                  value={buyData.tax} 
+                  onChange={(e) => {
+                    setBuyData({...buyData, tax : e.target.value})
+                  }}
                   className='w-1/2 border border-gray-300'
               />
             </div>
