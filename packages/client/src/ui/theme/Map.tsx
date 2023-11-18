@@ -1,6 +1,5 @@
 import React from 'react'
-import grass from '/assets/tiles/grass.jpg'
-import house1 from '/assets/tiles/house1.png'
+import Tile from './Tile';
 
 const list : number[] = []
 
@@ -17,10 +16,7 @@ export default function Map() {
       <div className="grid grid-cols-64 gap-4 p-10" style={{ minWidth: `${totalWidth}rem` }}>
             {list.map((x, xi) => (
                 list.map((y, yi) => (
-                <div key={`${xi}-${yi}`} className='h-28 w-28 flex justify-center items-center '>
-                  <img src={grass} alt="" className='h-28 w-28'/>
-                    {x}, {y}
-                </div>
+                    <Tile x={xi} y={yi} key={`${xi}-${yi}`} />
                 ))
             ))}
             </div>
