@@ -16,11 +16,12 @@ export default function Map() {
   for (let i = 1; i <= 64; i++) {
     for (let j = 1; j <= 64; j++) {
       plots.push({
-        x: i, // Calculate index based on row and column
+        x: i, 
         y: j,
         owner: `Owner ${i}-${j}`,
-        taxReserve: Math.random() * 1000, // Example tax reserve
-        salePrice: Math.random() * 5000 // Example sale price
+        taxToClaim: Math.random() * 1000,
+        taxReserve: Math.random() * 1000,
+        salePrice: Math.random() * 5000 
       });
     }
   }

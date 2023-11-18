@@ -5,6 +5,7 @@ export interface IPlot {
     y: number;    
     owner: string;
     taxReserve: number;
+    taxToClaim: number;
     salePrice: number;
   }
   
