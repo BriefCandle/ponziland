@@ -1,6 +1,6 @@
 import React from 'react'
 import Tile from './Tile';
-import Hud from './Hud';
+import Hud from './UI/Hud';
 
 const list : number[] = []
 

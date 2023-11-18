@@ -1,7 +1,7 @@
 import React from 'react';
 import grass from '/assets/tiles/grass.jpg';
 import house1 from '/assets/tiles/house_1.png';
-import BuyPage from './BuyPage';
+import BuyPage from './UI/BuyPage';
 import { useMUD } from '../../store';
 
 export default function Tile({ x, y } : { x: number, y: number }) {
