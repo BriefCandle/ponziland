@@ -1,6 +1,6 @@
 import React from 'react'
 import Map from './Map';
-import Hud from './UI/Hud';
+import Hud from './UI/Hud/Hud';
 
 
 const totalWidth = 64 * 7 + 63 * 1;
