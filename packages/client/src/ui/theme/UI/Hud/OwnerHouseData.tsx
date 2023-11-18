@@ -2,40 +2,29 @@ import React, { useState, useEffect } from 'react';
 import OwnerPage from './OwnerPage';
 import AddTaxPage from './AddTaxPage';
 import SellLandPage from './SellLandPage';
+import { plots } from '../../OnchainData';
 
-type HouseData = { id : number, remainingTaxCharge : number, sellPrice : number }
+type PlotData = { id: string, taxReserve: number, salePrice: number, owner: string }
+
 
 export default function OwnerHouseData() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isTaxOpen, setIsTaxOpen] = useState(false);
   const [isSellOpen, setIsSellOpen] = useState(false);
-  const ownedHouses : string[] = []
 
-  for (let i = 0; i < 5; i++) {
-    ownedHouses.push('house')
-  }
+  const [selectedPlot, setSelectedPlot] = useState<number>(0);
+  const [plotData, setPlotData] = useState<PlotData[]>([]);
 
-  const [selectedHouse, setSelectedHouse] = useState<number>(0);
-  const [houseData, setHouseData] = useState<HouseData[]>([]);
 
-  // Function to generate random house data
-  const generateRandomHouseData = () => {
-    return {
-      id: Math.floor(Math.random() * 1000),
-      remainingTaxCharge: Math.floor(Math.random() * 10000),
-      sellPrice: Math.floor(Math.random() * 500000)
-    };
-  };
-
-  
-  // Initialize houseData with random values
   useEffect(() => {
-    const data = Array(5).fill(null).map(() => generateRandomHouseData());
-    setHouseData(data);
+    const ownedPlots = plots.filter(plot => plot.owner === 'Owner 3-6'); 
+    setPlotData(ownedPlots);
   }, []);
 
-  const remainingTaxCharge = houseData[selectedHouse]?.remainingTaxCharge ?? 'Loading...';
+
+
+  const taxReserve = plotData[selectedPlot]?.taxReserve ?? 'Loading...';
     
 
   const handlePageClose = () => {
@@ -64,8 +53,8 @@ export default function OwnerHouseData() {
     //run Clain function smart contract
   };
 
-  const handleHouseSelect = (index: number) => {
-    setSelectedHouse(index);
+  const handlePlotSelect = (index: number) => {
+    setSelectedPlot(index);
     setIsOpen(true);
   }
 
@@ -77,17 +66,17 @@ export default function OwnerHouseData() {
         <div className='flex flex-col'>
           <h3 className='text-white uppercase p-6'>Your current Houses</h3>
           <div className='flex flex-col items-start overflow-y-scroll max-h-[750px]'>
-            {ownedHouses.map((house, index) => (
+            {plotData.map((plot, index) => (
               <div className='flex flex-row p-2 text-white'>
               <button 
                 key={index} 
                 className=''
-                onClick={() => handleHouseSelect(index)}
+                onClick={() => handlePlotSelect(index)}
               >
-                {house}
+                {selectedPlot}
               </button>
               <button className='pl-4' onClick={handleClaim}>Claim taxes</button>
-              <div className='pl-4'>{remainingTaxCharge}</div>
+              <div className='pl-4'>{taxReserve}</div>
               </div>
             ))}
           </div>
@@ -98,20 +87,20 @@ export default function OwnerHouseData() {
           onClose={handlePageClose}
           addTaxStorage={handleAddTax}
           addSellPlot={handleSellPlot}
-          houseData={houseData[selectedHouse]}
+          plotData={plotData[selectedPlot]}
         />
       )}
       {isTaxOpen && (
         <AddTaxPage
         onClose={handleAddTaxClose}
-        houseData={houseData[selectedHouse]}
+        plotData={plotData[selectedPlot]}
         />
       )}
 
       {isSellOpen && (
         <SellLandPage
         onClose={handleSellPlotClose}
-        houseData={houseData[selectedHouse]}
+        plotData={plotData[selectedPlot]}
         />
       )
 

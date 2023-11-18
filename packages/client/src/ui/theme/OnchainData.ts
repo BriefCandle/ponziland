@@ -3,6 +3,7 @@
 export interface IPlot {
     x: number;
     y: number;    
+    id: string;
     owner: string;
     taxReserve: number;
     taxToClaim: number;
