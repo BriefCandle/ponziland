@@ -37,9 +37,19 @@ export default function OwnerPage({ onClose, houseData } : {onClose : () => void
           <div className="items-center px-4 py-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-2/3 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
-              Confirm
+              Close
+            </button>
+            <button 
+                className="px-4 py-2 bg-red-400 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300"
+            >
+                Sell Plot
+            </button>
+            <button 
+                className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300"
+            >
+                Add tax storage
             </button>
           </div>
         </div>
