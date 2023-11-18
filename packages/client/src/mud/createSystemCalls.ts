@@ -13,6 +13,7 @@ import { getComponentValue } from "@latticexyz/recs";
 import { ClientComponents } from "./createClientComponents";
 import { SetupNetworkResult } from "./setupNetwork";
 import { singletonEntity } from "@latticexyz/store-sync/recs";
+import { async } from "rxjs";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
@@ -51,7 +52,27 @@ export function createSystemCalls(
     return getComponentValue(Counter, singletonEntity);
   };
 
+  const purchase = async (tileId: number, price: bigint, amount: bigint) => {
+    return await worldContract.write.purchase(tileId, price, amount);
+  };
+
+  const claimTax = async (tileId: number) => {
+    return await worldContract.write.claimTax(tileId);
+  };
+
+  const setPrice = async (tileId: number, price: bigint) => {
+    return await worldContract.write.setPrice(tileId, price);
+  };
+
+  const stake = async (tileId: number, amount: bigint) => {
+    return await worldContract.write.stake(tileId, amount);
+  };
+
   return {
     increment,
+    purchase,
+    claimTax,
+    setPrice,
+    stake,
   };
 }
