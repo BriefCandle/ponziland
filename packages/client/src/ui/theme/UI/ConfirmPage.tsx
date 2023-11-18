@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Modal({ onClose } : {onClose : () => void}){
+export default function Modal({ onClose, tax, sellPrice } : {onClose : () => void, tax : number, sellPrice : number }){
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50" onClick={onClose}>
@@ -8,11 +8,11 @@ export default function Modal({ onClose } : {onClose : () => void}){
         <div className="mt-3">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Purchase Land</h3>
           <div className="mt-2 pb-4 flex flex-col">
-            <p className="text-lg text-gray-500 pt-8">Your buy price is $</p>
+            <p className="text-lg text-gray-500 pt-8">Your sell price is ${sellPrice}</p>
           </div>
           <div >
             <div className='flex flex-col py-3'>
-              <div className='py-3 pr-3'>At what price do you want to sell the land</div>
+              <div className='py-3 pr-3'>At what price do you want to sell the land {tax}</div>
               <div className='py-3 pr-3'>Deposit tax money</div>
             </div>
           </div>

@@ -21,9 +21,11 @@ export default function Tile({ x, y } : { x: number, y: number }) {
     setIsOpen(false);
   };
 
-  const handleBuyPageNext = () => {
+  const handleNext = (sellPrice: number, tax: number) => {
     setIsOpen(false);
     setConfirmIsOpen(true);
+    setSellPrice(sellPrice);
+    setTax(tax);
   }
 
   return ( <>
@@ -38,18 +40,18 @@ export default function Tile({ x, y } : { x: number, y: number }) {
 
     {isOpen && (
       <BuyPage 
-        onNext={() => {
-          handleBuyPageNext();
-        }}
-        onClose={() => {
-          handleBuyPageClose();
-        }} 
+        onNext={handleNext}
+        onClose={handleBuyPageClose} 
         price={1000}
       />
     )}
 
     {confirmIsOpen && (
-      <ConfirmPage onClose={() => setConfirmIsOpen(false)} />
+      <ConfirmPage 
+      onClose={() => setConfirmIsOpen(false)}
+      sellPrice={sellPrice}
+      tax={tax}
+       />
     )}
     </>
   );
