@@ -37,7 +37,7 @@ function getRandomWholeNumber(min, max) {
     for (let j = 1; j <= 64; j++) {
 
       const assignEthereumKey = Math.random() < 0.2; // Roughly every 5th plot
-      const assignEthereumPersonal = Math.random() < 0.001;
+      const assignEthereumPersonal = Math.random() < 0.005;
 
       const plot = {
         x: i,

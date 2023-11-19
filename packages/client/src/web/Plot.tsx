@@ -50,10 +50,20 @@ export default function Plot({ x, y }: PlotProps) {
     setIsOpen(false);
   };
 
+  let hasBlackBorder = false;
+
+  if (buyData.owner === '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5') {
+    hasBlackBorder = true;
+  }
+
+
   return (
     <>
-      <div className='h-28 w-28 flex justify-center items-center relative' onClick={handlePlotClick}>
-        <img src={grass} alt="" className='h-28 w-28 absolute top-0 left-0'/>
+      <div 
+        className={`h-28 w-28 flex justify-center items-center relative`} 
+        onClick={handlePlotClick}
+      >
+        <img src={grass} alt="" className={`h-28 w-28 absolute top-0 left-0 ${hasBlackBorder ? 'border-8' : ''}`}/>
         {x}, {y}
         {buyData.owner && (
           <img src={house1} alt="" className='h-28 w-28 absolute top-0 left-0'/>
