@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNetworkLayer } from "./hooks/useNetworkLayer";
-import { useStore } from "../store";
+import { useMUD, useStore } from "../store";
 import { UIRoot } from "./UIRoot";
 import mudConfig from "contracts/mud.config";
 
