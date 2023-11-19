@@ -15,7 +15,7 @@ export default function Modal({ onNext, onClose, buyData, setBuyData } : { onNex
         <div className="mt-3">
           <h3 className="text-lg leading-6 font-medium text-gray-900">Purchase Land id: ({buyData.id})</h3>
           <div className="mt-2 pb-4 flex flex-col">
-            <p className="text-lg text-gray-500 pt-8">Your buy price is ${buyData.price}</p>
+            <p className="text-lg text-gray-500 pt-8">Your buy price is ${buyData.buyPrice}</p>
           </div>
           <div >
             <div className='flex flex-col py-3'>
