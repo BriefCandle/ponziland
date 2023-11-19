@@ -16,9 +16,9 @@ export default function Main() {
           y: j,
           id: `${i}, ${j}`,
           owner: `Owner ${i}-${j}`,
-          taxToClaim: Math.random() * 1000,
-          taxReserve: Math.random() * 1000,
-          salePrice: Math.random() * 5000
+          taxToClaim: 100,
+          taxReserve: 100,
+          salePrice: 100,
         });
       }
     }
