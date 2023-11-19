@@ -74,7 +74,7 @@ export default function OwnerHouseData() {
                 {plot.id}
               </button>
               <button className='pl-4' onClick={handleClaim}>Claim taxes</button>
-              <div className='pl-4'>{(plot.taxReserve).toFixed(2)}</div>
+              <div className='pl-4'>{plot.taxReserve}</div>
             </div>
           ))}
           </div>

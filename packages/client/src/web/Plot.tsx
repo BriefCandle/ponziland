@@ -55,7 +55,7 @@ export default function Plot({ x, y }: PlotProps) {
       <div className='h-28 w-28 flex justify-center items-center relative' onClick={handlePlotClick}>
         <img src={grass} alt="" className='h-28 w-28 absolute top-0 left-0'/>
         {x}, {y}
-        {x !== 0 && (
+        {buyData.owner && (
           <img src={house1} alt="" className='h-28 w-28 absolute top-0 left-0'/>
         )}
       </div>
