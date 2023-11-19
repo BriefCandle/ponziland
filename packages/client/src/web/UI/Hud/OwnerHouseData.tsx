@@ -18,7 +18,7 @@ export default function OwnerHouseData() {
 
 
   useEffect(() => {
-    const ownedPlots = plots.filter(plot => plot.x === 5); 
+    const ownedPlots = plots.filter(plot => plot.owner === '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5'); 
     setPlotData(ownedPlots);
   }, []);
 

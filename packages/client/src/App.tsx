@@ -25,13 +25,7 @@ export const App = () => {
     return key;
 }
 
-function createArrayOfFakeEthereumPublicKeys(size: number): string[] {
-    const keys = [];
-    for (let i = 0; i < size; i++) {
-        keys.push(generateFakeEthereumPublicKey());
-    }
-    return keys;
-}
+
 
 function getRandomWholeNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -43,6 +37,7 @@ function getRandomWholeNumber(min, max) {
     for (let j = 1; j <= 64; j++) {
 
       const assignEthereumKey = Math.random() < 0.2; // Roughly every 5th plot
+      const assignEthereumPersonal = Math.random() < 0.001;
 
       const plot = {
         x: i,
@@ -54,6 +49,9 @@ function getRandomWholeNumber(min, max) {
         plot.owner = generateFakeEthereumPublicKey();
         plot.taxReserve = getRandomWholeNumber(10, 500);
         plot.salePrice = getRandomWholeNumber(10, 500);
+      }
+      if (assignEthereumPersonal) {
+        plot.owner = '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5';
       }
 
       plots.push(plot);
