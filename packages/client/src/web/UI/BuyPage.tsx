@@ -22,7 +22,16 @@ const BuyPage: React.FC<BuyPageProps> = ({ onClose, buyData }) => {
 
   const handleValidate = () => {
     console.log('Validating Buy Data:', { ...buyData, sellPrice, tax });
-    networkLayer?.systemCalls.purchase(BigInt(1234123), BigInt(sellPrice), BigInt(tax));
+    // networkLayer?.systemCalls.purchase(BigInt(1234123), BigInt(sellPrice), BigInt(tax));
+    const {
+      networkLayer: {
+        components: { Tile },
+      },
+    } = useMUD();
+
+    console.log(useEntityQuery([Has(Tile)]));
+
+
     onClose(); // Close the modal after validation
   };
 
