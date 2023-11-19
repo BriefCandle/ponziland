@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
-import { useNetworkLayer } from '../../hooks/useNetworkLayer';
-import { NetworkLayer } from '../../../layers/network/createNetworkLayer';
 
-function combineUint32ToUint64(x: number, y: number): bigint {
-  x >>>= 0;
-  y >>>= 0;
 
-  return (BigInt(x) << BigInt(32)) | BigInt(y);
-}
 
 export default function Modal({ onClose, buyData } : {onClose : () => void, buyData : any }){
 
-  const networkLayer = useNetworkLayer();
 
   let runway : number;
   let runwayInDays : number;
@@ -21,8 +13,6 @@ export default function Modal({ onClose, buyData } : {onClose : () => void, buyD
 
 
   const handleBuyLand = () => {
-    let tileId = combineUint32ToUint64(buyData.x, buyData.y);
-    networkLayer?.systemCalls.purchase(tileId, BigInt(buyData.buyPrice), BigInt(buyData.sellPrice));
     onClose();
   }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import grass from '/assets/tiles/grass.jpg';
-import house1 from '/assets/tiles/house_1.png';
+import grass from './grass.jpg';
+import house1 from './house_1.png';
 import BuyPage from './UI/BuyPage';
 import { plots } from './OnchainData';
 

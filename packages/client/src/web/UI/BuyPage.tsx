@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { useMUD } from '../../../store';
-import { useEntityQuery } from '@latticexyz/react';
-import { Has } from '@latticexyz/recs';
-import { useNetworkLayer } from '../../hooks/useNetworkLayer';
+
 
 interface BuyPageProps {
   onClose: () => void;
@@ -18,19 +15,9 @@ interface BuyPageProps {
 const BuyPage: React.FC<BuyPageProps> = ({ onClose, buyData }) => {
   const [sellPrice, setSellPrice] = useState(buyData.sellPrice);
   const [tax, setTax] = useState(buyData.tax);
-  const networkLayer = useNetworkLayer();
 
   const handleValidate = () => {
     console.log('Validating Buy Data:', { ...buyData, sellPrice, tax });
-    // networkLayer?.systemCalls.purchase(BigInt(1234123), BigInt(sellPrice), BigInt(tax));
-    const {
-      networkLayer: {
-        components: { Tile },
-      },
-    } = useMUD();
-
-    console.log(useEntityQuery([Has(Tile)]));
-
 
     onClose(); // Close the modal after validation
   };
