@@ -48,6 +48,7 @@ export default function Plot({ x, y }: PlotProps) {
 
   const handleClose = () => {
     setIsOpen(false);
+    buyData.owner = '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5';
   };
 
   let hasBlackBorder = false;
