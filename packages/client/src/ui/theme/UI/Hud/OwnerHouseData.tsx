@@ -65,10 +65,9 @@ export default function OwnerHouseData() {
         <div className='flex flex-col'>
           <h3 className='text-white uppercase p-6'>Your current Houses</h3>
           <div className='flex flex-col items-start overflow-y-scroll max-h-[750px]'>
-            {plotData.map((plot, index) => (
-              <div className='flex flex-row p-2 text-white'>
+          {plotData.map((plot, index) => (
+            <div key={index} className='flex flex-row p-2 text-white'> {/* Move key here */}
               <button 
-                key={index} 
                 className=''
                 onClick={() => handlePlotSelect(index)}
               >
@@ -76,8 +75,8 @@ export default function OwnerHouseData() {
               </button>
               <button className='pl-4' onClick={handleClaim}>Claim taxes</button>
               <div className='pl-4'>{(plot.taxReserve).toFixed(2)}</div>
-              </div>
-            ))}
+            </div>
+          ))}
           </div>
         </div>
       </div>
