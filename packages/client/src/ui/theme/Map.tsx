@@ -1,5 +1,5 @@
 import React from 'react'
-import Tile from './Tile';
+import Plot from './Plot';
 import Hud from './UI/Hud/Hud';
 import { plots } from './OnchainData';
 
@@ -32,7 +32,7 @@ export default function Map() {
         <div className="grid grid-cols-64 gap-4 p-10 select-none" style={{ minWidth: `${totalWidth}rem` }}>
             {list.map((x, xi) => (
                 list.map((y, yi) => (
-                    <Tile x={xi} y={yi} key={`${xi}-${yi}`} />
+                    <Plot x={xi} y={yi} key={`${xi}-${yi}`} />
                 ))
             ))}
         </div>

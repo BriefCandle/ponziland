@@ -6,7 +6,7 @@ import ConfirmPage from './UI/ConfirmPage'
 import { plots } from './OnchainData';
 import { useMUD } from '../../store';
 
-export default function Tile({ x, y } : { x: number, y: number }) {
+export default function Plot({ x, y } : { x: number, y: number }) {
 
   // const { networkLayer : { network : { playerEntity }}} = useMUD();
   const [isOpen, setIsOpen] = React.useState(false);
