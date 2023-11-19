@@ -4,9 +4,9 @@ pragma solidity >=0.8.21;
 import { Script } from "forge-std/Script.sol";
 import { console } from "forge-std/console.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
-import {TileLogic} from "@/libraries/TileLogic.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
+import { Tasks, TasksData } from "../src/codegen/index.sol";
 
 contract PostDeploy is Script {
   function run(address worldAddress) external {
@@ -19,27 +19,14 @@ contract PostDeploy is Script {
     // Start broadcasting transactions from the deployer account
     vm.startBroadcast(deployerPrivateKey);
 
-    // ------------------ EXAMPLES ------------------
+    // We can set table records directly
+    Tasks.set("1", TasksData({ description: "Walk the dog", createdAt: block.timestamp, completedAt: 0 }));
 
-    // Call increment on the world via the registered function selector
-    uint32 newValue = IWorld(worldAddress).increment();
-    console.log("Increment via IWorld:", newValue);
+    // Or we can call our own systems
+    IWorld(worldAddress).addTask("Take out the trash");
 
-    uint64[] memory tileXYs = new uint64[](10);
-    tileXYs[0] = TileLogic.combine(2, 2);
-    tileXYs[1] = TileLogic.combine(2, 3);
-    tileXYs[2] = TileLogic.combine(1, 2);
-    tileXYs[3] = TileLogic.combine(3, 2);
-    tileXYs[4] = TileLogic.combine(6, 6);
-    tileXYs[5] = TileLogic.combine(7, 7);
-    tileXYs[6] = TileLogic.combine(8, 8);
-    tileXYs[7] = TileLogic.combine(9, 9);
-    tileXYs[8] = TileLogic.combine(10, 10);
-    tileXYs[9] = TileLogic.combine(11, 11);
-
-    for (uint i = 0; i < tileXYs.length; i++) {
-      IWorld(worldAddress).purchase(tileXYs[i], 1 ether, 1 ether);
-    }
+    bytes32 key = IWorld(worldAddress).addTask("Do the dishes");
+    IWorld(worldAddress).completeTask(key);
 
     vm.stopBroadcast();
   }

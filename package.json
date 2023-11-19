@@ -1,5 +1,5 @@
 {
-  "name": "mud-template-phaser",
+  "name": "mud-template-react",
   "private": true,
   "scripts": {
     "build": "pnpm recursive run build",

@@ -2,19 +2,11 @@ import { mudConfig } from "@latticexyz/world/register";
 
 export default mudConfig({
   tables: {
-    Counter: {
-      keySchema: {},
-      valueSchema: "uint32",
-    },
-    Tile: {
-      keySchema: {
-        xy: "uint64",
-      },
+    Tasks: {
       valueSchema: {
-        owner: "bytes32",
-        price: "uint256",
-        amount: "uint256",
-        lastUpdated: "uint40",
+        createdAt: "uint256",
+        completedAt: "uint256",
+        description: "string",
       },
     },
   },

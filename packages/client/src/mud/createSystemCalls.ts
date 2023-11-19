@@ -1,19 +1,10 @@
 /*
- * Creates components for use by the client.
- *
- * By default it returns the components from setupNetwork.ts, those which are
- * automatically inferred from the mud.config.ts table definitions.
- *
- * However, you can add or override components here as needed. This
- * lets you add user defined components, which may or may not have
- * an onchain component.
+ * Create the system calls that the client can use to ask
+ * for changes in the World state (using the System contracts).
  */
 
-import { getComponentValue } from "@latticexyz/recs";
-import { ClientComponents } from "./createClientComponents";
+import { Hex } from "viem";
 import { SetupNetworkResult } from "./setupNetwork";
-import { singletonEntity } from "@latticexyz/store-sync/recs";
-import { async } from "rxjs";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
@@ -26,53 +17,38 @@ export function createSystemCalls(
    *
    *   Out of this parameter, we only care about two fields:
    *   - worldContract (which comes from getContract, see
-   *     https://github.com/latticexyz/mud/blob/main/templates/phaser/packages/client/src/mud/setupNetwork.ts#L61-L67).
+   *     https://github.com/latticexyz/mud/blob/main/templates/react/packages/client/src/mud/setupNetwork.ts#L63-L69).
    *
    *   - waitForTransaction (which comes from syncToRecs, see
-   *     https://github.com/latticexyz/mud/blob/main/templates/phaser/packages/client/src/mud/setupNetwork.ts#L75-L81).
+   *     https://github.com/latticexyz/mud/blob/main/templates/react/packages/client/src/mud/setupNetwork.ts#L77-L83).
    *
    * - From the second parameter, which is a ClientComponent,
    *   we only care about Counter. This parameter comes to use
    *   through createClientComponents.ts, but it originates in
    *   syncToRecs
-   *   (https://github.com/latticexyz/mud/blob/main/templates/phaser/packages/client/src/mud/setupNetwork.ts#L75-L81).
+   *   (https://github.com/latticexyz/mud/blob/main/templates/react/packages/client/src/mud/setupNetwork.ts#L77-L83).
    */
-  { worldContract, waitForTransaction }: SetupNetworkResult,
-  { Counter }: ClientComponents
+  { tables, useStore, worldContract, waitForTransaction }: SetupNetworkResult
 ) {
-  const increment = async () => {
-    /*
-     * Because IncrementSystem
-     * (https://mud.dev/templates/typescript/contracts#incrementsystemsol)
-     * is in the root namespace, `.increment` can be called directly
-     * on the World contract.
-     */
-    const tx = await worldContract.write.increment();
+  const addTask = async (label: string) => {
+    const tx = await worldContract.write.addTask([label]);
     await waitForTransaction(tx);
-    return getComponentValue(Counter, singletonEntity);
   };
 
-  const purchase = async (tileId: bigint, price: bigint, amount: bigint) => {
-    return await worldContract.write.purchase([tileId, price, amount]);
+  const toggleTask = async (key: Hex) => {
+    const isComplete = (useStore.getState().getValue(tables.Tasks, { key })?.completedAt ?? 0n) > 0n;
+    const tx = isComplete ? await worldContract.write.resetTask([key]) : await worldContract.write.completeTask([key]);
+    await waitForTransaction(tx);
   };
 
-  const claimTax = async (tileId: bigint) => {
-    return await worldContract.write.claimTax([tileId]);
-  };
-
-  const setPrice = async (tileId: bigint, price: bigint) => {
-    return await worldContract.write.setPrice([tileId, price]);
-  };
-
-  const stake = async (tileId: bigint, amount: bigint) => {
-    return await worldContract.write.stake([tileId, amount]);
+  const deleteTask = async (key: Hex) => {
+    const tx = await worldContract.write.deleteTask([key]);
+    await waitForTransaction(tx);
   };
 
   return {
-    increment,
-    purchase,
-    claimTax,
-    setPrice,
-    stake,
+    addTask,
+    toggleTask,
+    deleteTask,
   };
 }
