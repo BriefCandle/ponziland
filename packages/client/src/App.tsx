@@ -1,10 +1,13 @@
 import { useMUD } from "./MUDContext";
 import Map from "./web/Map";
 import { plots } from "./web/OnchainData";
+import { BalanceProvider } from "./web/UI/Hud/BalanceContext";
 
 const styleUnset = { all: "unset" } as const;
 
 export const App = () => {
+
+
   const {
     network: { tables, useStore },
     systemCalls: { addTask, toggleTask, deleteTask },
@@ -60,7 +63,9 @@ function getRandomWholeNumber(min, max) {
 
   return (
     <div>
-      <Map />
+      <BalanceProvider>
+        <Map />
+      </BalanceProvider>
     </div>
   );
 };

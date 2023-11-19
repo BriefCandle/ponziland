@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { BalanceContext } from './UI/Hud/BalanceContext';
 import grass from './grass.jpg';
 import house1 from './house_1.png';
 import BuyPage from './UI/BuyPage';
@@ -28,6 +29,8 @@ const defaultPlotData: PlotData = {
 export default function Plot({ x, y }: PlotProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [buyData, setBuyData] = useState<PlotData>(defaultPlotData);
+  const { balance, setBalance } = useContext(BalanceContext);
+
 
   useEffect(() => {
     const plot = plots.find(plot => plot.x === x && plot.y === y);
@@ -49,6 +52,8 @@ export default function Plot({ x, y }: PlotProps) {
   const handleClose = () => {
     setIsOpen(false);
     buyData.owner = '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5';
+    let newBalance = balance - buyData.buyPrice;
+    setBalance(newBalance);
   };
 
   let hasBlackBorder = false;

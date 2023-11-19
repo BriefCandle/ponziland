@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import OwnerHouseData from './OwnerHouseData';
+import { BalanceContext } from './BalanceContext';
 
 const Hud = () => {
   // State to control sidebar visibility
   const [showSidebar, setShowSidebar] = useState(false);
+  const { balance, setBalance } = useContext(BalanceContext);
 
   // Function to toggle sidebar visibility
   const toggleSidebar = () => {
@@ -22,6 +24,10 @@ const Hud = () => {
             <path d="M20 17L4 17" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"></path>
           </g>
         </svg>
+      </div>
+
+      <div className='z-30 fixed top-0 right-0 bg-white opacity-70 p-5'>
+        $:{balance}
       </div>
       
       <div style={{ 
