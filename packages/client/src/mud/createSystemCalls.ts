@@ -52,20 +52,20 @@ export function createSystemCalls(
     return getComponentValue(Counter, singletonEntity);
   };
 
-  const purchase = async (tileId: number, price: bigint, amount: bigint) => {
-    return await worldContract.write.purchase(tileId, price, amount);
+  const purchase = async (tileId: bigint, price: bigint, amount: bigint) => {
+    return await worldContract.write.purchase([tileId, price, amount]);
   };
 
-  const claimTax = async (tileId: number) => {
-    return await worldContract.write.claimTax(tileId);
+  const claimTax = async (tileId: bigint) => {
+    return await worldContract.write.claimTax([tileId]);
   };
 
-  const setPrice = async (tileId: number, price: bigint) => {
-    return await worldContract.write.setPrice(tileId, price);
+  const setPrice = async (tileId: bigint, price: bigint) => {
+    return await worldContract.write.setPrice([tileId, price]);
   };
 
-  const stake = async (tileId: number, amount: bigint) => {
-    return await worldContract.write.stake(tileId, amount);
+  const stake = async (tileId: bigint, amount: bigint) => {
+    return await worldContract.write.stake([tileId, amount]);
   };
 
   return {
