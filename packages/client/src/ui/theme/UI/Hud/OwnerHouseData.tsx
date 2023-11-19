@@ -18,13 +18,12 @@ export default function OwnerHouseData() {
 
 
   useEffect(() => {
-    const ownedPlots = plots.filter(plot => plot.owner === 'Owner 3-6'); 
+    const ownedPlots = plots.filter(plot => plot.x === 5); 
     setPlotData(ownedPlots);
   }, []);
 
 
 
-  const taxReserve = plotData[selectedPlot]?.taxReserve ?? 'Loading...';
     
 
   const handlePageClose = () => {
@@ -76,7 +75,7 @@ export default function OwnerHouseData() {
                 {plot.id}
               </button>
               <button className='pl-4' onClick={handleClaim}>Claim taxes</button>
-              <div className='pl-4'>{taxReserve}</div>
+              <div className='pl-4'>{plot.taxReserve}</div>
               </div>
             ))}
           </div>
