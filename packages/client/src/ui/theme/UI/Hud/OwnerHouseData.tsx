@@ -73,7 +73,7 @@ export default function OwnerHouseData() {
                 className=''
                 onClick={() => handlePlotSelect(index)}
               >
-                {selectedPlot}
+                {plot.id}
               </button>
               <button className='pl-4' onClick={handleClaim}>Claim taxes</button>
               <div className='pl-4'>{taxReserve}</div>
