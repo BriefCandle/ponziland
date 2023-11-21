@@ -1,32 +1,42 @@
-import { Tileset } from "../../../artTypes/world";
 import { PhaserLayer } from "../createPhaserLayer";
-import { createNoise2D } from "simplex-noise";
+import { TILE_WIDTH, TILE_HEIGHT, LINE_WIDTH } from "../constants";
+import { WIDTH, HEIGHT } from "../../../constants";
+import { Entity, setComponent } from "@latticexyz/recs";
+import { combine, toBytes32 } from "../../../utils/tile";
 
 export function createMapSystem(layer: PhaserLayer) {
   const {
+    world,
+    networkLayer: {
+      components: { Tile, SelectedTile },
+    },
     scenes: {
-      Main: {
-        maps: {
-          Main: { putTileAt },
-        },
-      },
+      Main: { phaserScene },
     },
   } = layer;
 
-  const noise = createNoise2D();
+  // const noise = createNoise2D();
 
-  for (let x = -500; x < 500; x++) {
-    for (let y = -500; y < 500; y++) {
-      const coord = { x, y };
-      const seed = noise(x, y);
+  phaserScene.cameras.main.setBackgroundColor("#000033");
+  // phaserScene.cameras.main.centerOn(WIDTH * TILE_WIDTH, HEIGHT * TILE_HEIGHT);
 
-      putTileAt(coord, Tileset.Grass, "Background");
-
-      if (seed >= 0.45) {
-        putTileAt(coord, Tileset.Mountain, "Foreground");
-      } else if (seed < -0.45) {
-        putTileAt(coord, Tileset.Forest, "Foreground");
-      }
+  // x, y coordinates start at 1 instead of 0
+  for (let x = 1; x <= WIDTH; x++) {
+    for (let y = 1; y <= HEIGHT; y++) {
+      const entity = toBytes32(combine(x, y)) as Entity;
+      const tile = phaserScene.add
+        .rectangle(0, 0, 0, 0, 0xffffff, 1)
+        .setDepth(1)
+        .setPosition(
+          (TILE_WIDTH + LINE_WIDTH) * x,
+          (TILE_HEIGHT + LINE_WIDTH) * y
+        )
+        .setSize(TILE_WIDTH, TILE_HEIGHT);
+      // set titles, either existing or not existing, to be selectable
+      tile.setInteractive();
+      tile.on("pointerdown", () => {
+        setComponent(SelectedTile, entity, { value: entity });
+      });
     }
   }
 }
