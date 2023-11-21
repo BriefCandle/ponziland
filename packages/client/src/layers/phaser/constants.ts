@@ -17,6 +17,8 @@ export enum Assets {
   MainAtlas = "MainAtlas",
   Tileset = "Tileset",
 }
+export const TILE_WIDTH = 10;
+export const TILE_HEIGHT = 10;
+export const LINE_WIDTH = 2;
 
-export const TILE_HEIGHT = 32;
-export const TILE_WIDTH = 32;
+export const STAKE_BUTTON_OFFSET = { x: 30, y: 10 };
