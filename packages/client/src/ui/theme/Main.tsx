@@ -9,16 +9,6 @@ import { useNetworkLayer } from "../hooks/useNetworkLayer";
 const totalWidth = 64 * 7 + 63 * 1;
 
 export default function Main() {
-  const networkLayer = useNetworkLayer();
-  const Tile = networkLayer?.components.Tile;
-  // const {
-  //   networkLayer: {
-  //     components: { Tile },
-  //   },
-  // } = useMUD();
-  // console.log(useEntityQuery([Has(Tile.)]));
-  console.log("networkLayer", networkLayer?.components.Tile.id);
-
   return (
     <div className="overflow-x-auto bg-[#466567]">
       <Map />

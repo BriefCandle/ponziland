@@ -3,6 +3,7 @@ import { useNetworkLayer } from "./hooks/useNetworkLayer";
 import { useMUD, useStore } from "../store";
 import { UIRoot } from "./UIRoot";
 import mudConfig from "contracts/mud.config";
+import { PhaserLayer } from "./PhaserLayer";
 
 export const App = () => {
   const networkLayer = useNetworkLayer();
@@ -32,7 +33,9 @@ export const App = () => {
 
   return (
     <div>
-      <UIRoot />
+      <PhaserLayer networkLayer={networkLayer} />
+
+      {/* <UIRoot /> */}
     </div>
   );
 };
