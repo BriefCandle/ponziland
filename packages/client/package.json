@@ -30,7 +30,8 @@
     "styled-components": "^5.3.10",
     "use-resize-observer": "^9.1.0",
     "viem": "1.14.0",
-    "zustand": "^4.3.8"
+    "zustand": "^4.3.8",
+    "dayjs": "^1.11.9"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.194",
