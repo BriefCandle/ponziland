@@ -9,13 +9,23 @@
  * an onchain component.
  */
 
+import { Type, defineComponent } from "@latticexyz/recs";
 import { SetupNetworkResult } from "./setupNetwork";
 
 export type ClientComponents = ReturnType<typeof createClientComponents>;
 
-export function createClientComponents({ components }: SetupNetworkResult) {
+export function createClientComponents({
+  world,
+  components,
+}: SetupNetworkResult) {
   return {
     ...components,
     // add your client components or overrides here
+    SelectedTile: defineComponent(world, {
+      value: Type.Entity,
+    }),
+    NearTiles: defineComponent(world, {
+      value: Type.EntityArray,
+    }),
   };
 }
